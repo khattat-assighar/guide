@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دليل تدريبي شامل — تطبيق خطاط الصغار</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --accent: #FFE66D;
+            --purple: #A29BFE;
+            --bg: #F7FFF7;
+            --bg-panel: #FFFFFF;
+            --text: #2D3436;
+            --text-light: #636E72;
+            --border: #DFE6E9;
+            --radius: 16px;
+            --shadow: 0 4px 15px rgba(78, 205, 196, 0.2);
+            --shadow-md: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            direction: rtl;
+        }
+        .nav {
+            position: fixed;
+            top: 0; right: 0; left: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 12px 20px;
+            border-bottom: 3px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .nav-logo {
+            font-family: 'Amiri', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .nav-logo span { color: var(--secondary); }
+        .nav-spacer { flex: 1; }
+        .nav-link {
+            padding: 6px 14px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 700;
+            transition: all 0.2s;
+            border: 2px solid var(--border);
+        }
+        .nav-link:hover {
+            background: var(--secondary);
+            color: #fff;
+            border-color: var(--secondary);
+        }
+        .nav-link.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        .section {
+            min-height: 100vh;
+            padding: 100px 20px 60px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: none;
+        }
+        .section.active { display: block; }
+        .card {
+            background: var(--bg-panel);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: var(--secondary);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px dashed var(--border);
+        }
+        .card-icon {
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .card-title {
+            font-family: 'Amiri', serif;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, rgba(78,205,196,0.1), rgba(255,107,107,0.05));
+            border-radius: 24px;
+            margin-bottom: 40px;
+            border: 2px solid rgba(78,205,196,0.2);
+        }
+        .hero h1 {
+            font-family: 'Amiri', serif;
+            font-size: 42px;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+        .hero h2 {
+            font-size: 20px;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: var(--accent);
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #856404;
+            margin-bottom: 20px;
+        }
+        .hero-info {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .hero-info-item {
+            padding: 10px 20px;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            font-size: 13px;
+        }
+        .hero-info-item strong { color: var(--primary); }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); }
+        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+        .grid-4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+        .feature-card {
+            background: var(--bg-panel);
+            border-radius: var(--radius);
+            padding: 20px;
+            text-align: center;
+            border: 2px solid var(--border);
+            transition: all 0.2s;
+        }
+        .feature-card:hover {
+            border-color: var(--secondary);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        .feature-icon { font-size: 36px; margin-bottom: 12px; }
+        .feature-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .feature-desc {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+        .letter-card {
+            background: var(--bg-panel);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            border: 2px solid var(--border);
+            transition: all 0.2s;
+        }
+        .letter-card:hover {
+            transform: scale(1.05);
+            border-color: var(--primary);
+        }
+        .letter-char {
+            font-family: 'Amiri', serif;
+            font-size: 36px;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        .letter-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .letter-desc {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+        .letter-tag {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+        .tag-above { background: #E3FDFD; color: #00B894; }
+        .tag-on { background: #E8F4FD; color: #0984E3; }
+        .tag-below { background: #FFF0F5; color: var(--primary); }
+        .tag-special { background: #F0E6FF; color: var(--purple); }
+        .shortcut-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 20px;
+            background: var(--bg-panel);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border: 2px solid var(--border);
+        }
+        .shortcut-key {
+            padding: 6px 16px;
+            background: #F0F0F0;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 13px;
+            font-weight: 700;
+            border: 2px solid #B2BEC3;
+            white-space: nowrap;
+        }
+        .shortcut-action {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+            min-width: 80px;
+        }
+        .shortcut-desc {
+            font-size: 13px;
+            color: var(--text-light);
+            flex: 1;
+        }
+        .tip-box {
+            background: #F0FFF4;
+            border: 2px dashed var(--secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .tip-box h3 {
+            color: #00B894;
+            font-size: 16px;
+            margin-bottom: 12px;
+            font-family: 'Amiri', serif;
+        }
+        .tip-box ul {
+            list-style: none;
+            padding: 0;
+        }
+        .tip-box li {
+            padding: 6px 0;
+            font-size: 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        .tip-box li::before { content: '✅'; }
+        .warning-box {
+            background: #FFF0F5;
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .warning-box h3 {
+            color: var(--primary);
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+        .warning-box p {
+            font-size: 14px;
+            color: var(--text);
+        }
+        .table-wrap {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-panel);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        th {
+            background: var(--secondary);
+            color: #fff;
+            padding: 14px;
+            font-size: 14px;
+            text-align: right;
+        }
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+        }
+        tr:hover { background: #F7FFF7; }
+        .section-title {
+            font-family: 'Amiri', serif;
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        .print-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, var(--secondary), #2AB7CA);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(78, 205, 196, 0.4);
+            transition: all 0.3s;
+            z-index: 999;
+        }
+        .print-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(78, 205, 196, 0.5);
+        }
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, rgba(78,205,196,0.1), rgba(255,107,107,0.05));
+            border-radius: 24px;
+            margin: 40px 20px;
+            border: 2px solid rgba(78,205,196,0.2);
+        }
+        .footer h3 {
+            font-family: 'Amiri', serif;
+            font-size: 22px;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+        .footer p {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        @media (max-width: 768px) {
+            .nav { padding: 8px 10px; }
+            .nav-link { padding: 4px 10px; font-size: 11px; }
+            .hero h1 { font-size: 28px; }
+            .section { padding: 90px 12px 40px; }
+            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+            .shortcut-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+        }
+        @media print {
+            .nav, .print-btn { display: none; }
+            .section { display: block !important; min-height: auto; padding: 20px; page-break-after: always; }
+            .section:last-child { page-break-after: auto; }
+            body { background: white; }
+            .card { box-shadow: none; border: 1px solid #ddd; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <div class="nav-logo">خطاط <span>الصغار</span> 📚</div>
+    <div class="nav-spacer"></div>
+    <a href="#cover" class="nav-link active" onclick="showSection('cover', this)">الغلاف</a>
+    <a href="#interface" class="nav-link" onclick="showSection('interface', this)">الواجهة</a>
+    <a href="#modes" class="nav-link" onclick="showSection('modes', this)">الأقلام</a>
+    <a href="#letters" class="nav-link" onclick="showSection('letters', this)">الأحرف</a>
+    <a href="#advanced" class="nav-link" onclick="showSection('advanced', this)">متقدم</a>
+    <a href="#tips" class="nav-link" onclick="showSection('tips', this)">نصائح</a>
+</nav>
+
+<!-- PAGE 1: Cover -->
+<section id="cover" class="section active">
+    <div class="hero">
+        <div class="hero-badge">✨ منصة تعليمية تفاعلية</div>
+        <h1>دليل تدريبي شامل</h1>
+        <h2>تطبيق خطاط الصغار — تعلّم الخط العربي بمرح!</h2>
+        <p style="color: var(--text-light); font-size: 16px; max-width: 600px; margin: 0 auto;">
+            منصة مبتكرة لتعليم فنون الخط العربي بأسلوب ممتع وآمن، مصممة خصيصاً لتنمية المهارات الحركية والفنية لدى المتعلمين.
+        </p>
+        <div class="hero-info">
+            <div class="hero-info-item"><strong>🏫 المؤسسة:</strong> المركز الجهوي لمهن التربية والتكوين</div>
+            <div class="hero-info-item"><strong>📍 الملحقة:</strong> مراكش آسفي — ملحقة المشور</div>
+            <div class="hero-info-item"><strong>👤 المصمم:</strong> رضا أيت أمغار</div>
+            <div class="hero-info-item"><strong>📅 السنة:</strong> 2025-2026</div>
+            <div class="hero-info-item"><strong>🎯 الفئة:</strong> أساتذة متدربين (Fawj 4)</div>
+            <div class="hero-info-item"><strong>🏫 المدرسة:</strong> ابن زيدون 2 الابتدائية</div>
+        </div>
+    </div>
+
+    <div class="grid grid-3">
+        <div class="feature-card">
+            <div class="feature-icon">🎨</div>
+            <div class="feature-title">28 حرفاً عربياً</div>
+            <div class="feature-desc">جميع الحروف العربية مع أشكالها المختلفة وقواعد السطر</div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">✍️</div>
+            <div class="feature-title">4 أنواع أقلام</div>
+            <div class="feature-desc">قلم، رصاص، ريشة سحرية، ووضع العرض فقط</div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🌟</div>
+            <div class="feature-title">نظام النجوم</div>
+            <div class="feature-desc">مكافآت تلقائية وتحفيز مستمر للمتعلمين</div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">👨‍🏫</div>
+            <div class="feature-title">وضع الأستاذ</div>
+            <div class="feature-desc">مولد كلمات مخصصة للتدريب على الربط</div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🖐️</div>
+            <div class="feature-title">وضع الأعسر</div>
+            <div class="feature-desc">دعم كامل للمتعلمين الأعسر مع تعديل الواجهة</div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔊</div>
+            <div class="feature-title">توجيه صوتي</div>
+            <div class="feature-desc">إرشادات صوتية بالعربية لكل حرف</div>
+        </div>
+    </div>
+
+    <div class="tip-box">
+        <h3>🎯 الفئة المستهدفة</h3>
+        <ul>
+            <li>أساتذة متدربين في المركز الجهوي لمهن التربية والتكوين (Fawj 4)</li>
+            <li>متعلمي المرحلة الابتدائية (تلاميذ ابن زيدون 2 الابتدائية)</li>
+            <li>المعلمون الباحثون عن أدوات تفاعلية لتعليم الخط العربي</li>
+            <li>أولياء الأمور الراغبون في دعم أبنائهم في تعلم الكتابة</li>
+        </ul>
+    </div>
+</section>
+
+<!-- PAGE 2: Interface -->
+<section id="interface" class="section">
+    <h2 class="section-title">🖥️ نظرة عامة على الواجهة</h2>
+    <p class="section-subtitle">فهم التخطيط والتنقل في التطبيق</p>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-icon" style="background: #E3FDFD;">🔝</div>
+            <div class="card-title">شريط العنوان (Top Bar)</div>
+        </div>
+        <p>يحتوي على اسم التطبيق <strong>"خطاط الصغار"</strong>، عداد النجوم ⭐، عداد الخطوط المرسومة، ومؤشر الصفحات (5 صفحات). يوفر نظرة سريعة على تقدم المتعلم.</p>
+    </div>
+
+    <div class="grid grid-2">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #FFF0F5;">◀</div>
+                <div class="card-title">الشريط الأيسر</div>
+            </div>
+            <ul style="list-style: none; padding: 0;">
+                <li style="padding: 6px 0;">📄 <strong>الصفحة:</strong> التبديل بين 5 صفحات</li>
+                <li style="padding: 6px 0;">📏 <strong>سُمك القلم:</strong> 4 مستويات (رفيع/وسط/سميك/عريض)</li>
+                <li style="padding: 6px 0;">🖌️ <strong>نوع القلم:</strong> قلم/رصاص/ريشة/بدون</li>
+                <li style="padding: 6px 0;">🎨 <strong>لون القلم:</strong> 10 ألوان متنوعة</li>
+                <li style="padding: 6px 0;">🎓 <strong>وضع التعلم:</strong> خطوات مفصلة لكل حرف</li>
+                <li style="padding: 6px 0;">👁️ <strong>وضع التتبع:</strong> دليل ظل للحرف</li>
+            </ul>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #F0F8FF;">▶</div>
+                <div class="card-title">الشريط الأيمن</div>
+            </div>
+            <ul style="list-style: none; padding: 0;">
+                <li style="padding: 6px 0;">📏 <strong>سطور الصفحة:</strong> عربية/منقطة/مسطرة/فارغة</li>
+                <li style="padding: 6px 0;">🖼️ <strong>لون الورق:</strong> 5 ألوان (أبيض/كريمي/نعناعي/وردي/أخضر)</li>
+                <li style="padding: 6px 0;">👨‍🏫 <strong>وضع الأستاذ:</strong> مولد كلمات مخصصة</li>
+                <li style="padding: 6px 0;">🎨 <strong>الثيمات:</strong> أبيض/سبورة/فضاء</li>
+                <li style="padding: 6px 0;">🖐️ <strong>وضع اليمين/الأعسر:</strong> تبديل ترتيب الواجهة</li>
+                <li style="padding: 6px 0;">🔤 <strong>قائمة الحروف:</strong> 28 حرفاً عربياً</li>
+                <li style="padding: 6px 0;">📏 <strong>قواعد السطر:</strong> شرح تفاعلي</li>
+                <li style="padding: 6px 0;">❓ <strong>المساعدة:</strong> دليل سريع</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-icon" style="background: #FFFBE6;">🎨</div>
+            <div class="card-title">منطقة اللوحة (Canvas)</div>
+        </div>
+        <p>المنطقة المركزية للرسم. تحتوي على 4 طبقات: <strong>الخلفية (سطور)</strong>، <strong>دليل التتبع</strong>، <strong>تأثير الحبر</strong>، و<strong>الرسم الرئيسي</strong>. عرض اللوحة 4000 بكسل للسماح بالكتابة الممتدة.</p>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-icon" style="background: #FFFBE6;">🔽</div>
+            <div class="card-title">شريط التحكم السفلي</div>
+        </div>
+        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <span style="padding: 8px 16px; background: #E3FDFD; border-radius: 8px; font-size: 13px;">▶ <strong>شاهد الرسم:</strong> إعادة تلقائية</span>
+            <span style="padding: 8px 16px; background: #E3FDFD; border-radius: 8px; font-size: 13px;">🔍 <strong>تكبير:</strong> 50% إلى 300%</span>
+            <span style="padding: 8px 16px; background: #E3FDFD; border-radius: 8px; font-size: 13px;">⚡ <strong>سرعة:</strong> 0.5x إلى 5x</span>
+            <span style="padding: 8px 16px; background: #E3FDFD; border-radius: 8px; font-size: 13px;">↩️ <strong>تراجع/إعادة:</strong> Undo/Redo</span>
+            <span style="padding: 8px 16px; background: #FFF0F5; border-radius: 8px; font-size: 13px;">🗑️ <strong>مسح الكل</strong></span>
+            <span style="padding: 8px 16px; background: #E3FDFD; border-radius: 8px; font-size: 13px;">📸 <strong>لقطة شاشة</strong></span>
+        </div>
+    </div>
+
+    <div class="warning-box">
+        <h3>⚠️ شريط المعلومات</h3>
+        <p>يظهر أسفل شريط العنوان مباشرة: <strong>الحرف الحالي</strong> (مثلاً: ب)، <strong>اسمه</strong> (الباء)، <strong>موقعه على السطر</strong> (↑ فوق السطر / ↓ تحت السطر / ─ على السطر)، و<strong>نصيحة الكتابة</strong> (مثلاً: "ابدأ من اليمين — خط أفقي ثم نقطة تحت").</p>
+    </div>
+
+    <div class="tip-box">
+        <h3>🧭 نصائح التنقل</h3>
+        <ul>
+            <li>استخدم الماوس أو إصبعك للرسم على اللوحة مباشرة</li>
+            <li>على الأجهزة المحمولة، اضغط على ☰ أو ⚙️ لفتح الأشرطة الجانبية</li>
+            <li>استخدم شريط التكبير أو Ctrl+Scroll Wheel للتقريب/التبعيد</li>
+            <li>فعّل وضع الأعسر لعكس ترتيب الأشرطة إذا كنت أعسراً</li>
+        </ul>
+    </div>
+</section>
+<!-- PAGE 3: Writing Modes -->
+<section id="modes" class="section">
+    <h2 class="section-title">✍️ أوضاع الكتابة وأنواع الأقلام</h2>
+    <p class="section-subtitle">اكتشف الأدوات المتاحة للكتابة</p>
+
+    <h3 style="font-family: 'Amiri', serif; font-size: 22px; color: var(--primary); margin: 30px 0 20px;">🎯 أوضاع الكتابة المتاحة</h3>
+
+    <div class="grid grid-2">
+        <div class="card" style="border-color: var(--secondary);">
+            <div class="card-header">
+                <div class="card-icon" style="background: #E3FDFD;">✍️</div>
+                <div class="card-title">الكتابة الحرة <span style="font-size: 12px; color: var(--secondary);">(افتراضي)</span></div>
+            </div>
+            <p>ارسم بحرية على اللوحة بدون قيود. مثالي للتعبير الإبداعي والتدريب العام. يمكن استخدام أي قلم ولون.</p>
+        </div>
+        <div class="card" style="border-color: var(--primary);">
+            <div class="card-header">
+                <div class="card-icon" style="background: #FFF0F5;">👁️</div>
+                <div class="card-title">وضع التتبع <span style="font-size: 12px; color: var(--primary);">(اختياري)</span></div>
+            </div>
+            <p>يظهر ظل خفيف للحرف المختار (4 أشكال: منفصل/بداية/وسط/نهاية) على اللوحة. حاول أن ترسم فوق الظل للحصول على أقصى دقة.</p>
+        </div>
+        <div class="card" style="border-color: var(--purple);">
+            <div class="card-header">
+                <div class="card-icon" style="background: #F0E6FF;">🎓</div>
+                <div class="card-title">وضع التعلم <span style="font-size: 12px; color: var(--purple);">(تعليمي)</span></div>
+            </div>
+            <p>يعرض خطوات مفصلة لكتابة الحرف المختار (مثلاً: "ابدأ من اليمين — خط أفقي — نقطة تحت"). يتضمن توجيهاً صوتياً بالعربية.</p>
+        </div>
+        <div class="card" style="border-color: #00B894;">
+            <div class="card-header">
+                <div class="card-icon" style="background: #F0FFF4;">👨‍🏫</div>
+                <div class="card-title">وضع الأستاذ <span style="font-size: 12px; color: #00B894;">(متقدم)</span></div>
+            </div>
+            <p>مولد كلمات مخصصة للتدريب. اكتب أي كلمة عربية (مثلاً: مدرسة، كتاب، جبل) ويتم إنشاء دليل تتبع للكلمة بأكملها.</p>
+        </div>
+    </div>
+
+    <h3 style="font-family: 'Amiri', serif; font-size: 22px; color: var(--primary); margin: 30px 0 20px;">🖌️ أنواع الأقلام</h3>
+
+    <div class="grid grid-2">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #E3FDFD;">🖊️</div>
+                <div class="card-title">القلم العادي</div>
+            </div>
+            <p><strong>الوصف:</strong> خط سلس ومتناسق مع دعم ضغط المؤشر (Pointer Pressure).</p>
+            <p><strong>الاستخدام:</strong> مثالي للتدريب اليومي والكتابة النهائية.</p>
+            <p><strong>الميزات:</strong> رسم سلس باستخدام منحنيات تربيعية (Quadratic Curves).</p>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #FFF5E6;">✏️</div>
+                <div class="card-title">الرصاص</div>
+            </div>
+            <p><strong>الوصف:</strong> خطوط خفيفة قابلة للمسح مع تأثيرات عشوائية للواقعية.</p>
+            <p><strong>الاستخدام:</strong> مثالي للتخطيط والتجريب قبل الكتابة النهائية.</p>
+            <p><strong>الميزات:</strong> شفافية 70% + خطوط خفيفة إضافية للتأثير.</p>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #F0E6FF;">🪶</div>
+                <div class="card-title">الريشة السحرية</div>
+            </div>
+            <p><strong>الوصف:</strong> خطوط متغيرة السمك (Calligraphy) بزاوية 45 درجة.</p>
+            <p><strong>الاستخدام:</strong> مثالي للخط العربي التقليدي والفنون.</p>
+            <p><strong>الميزات:</strong> يتغير السمك حسب اتجاه الحركة (مثل الريشة الحقيقية).</p>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #F0F0F0;">⭕</div>
+                <div class="card-title">بدون قلم</div>
+            </div>
+            <p><strong>الوصف:</strong> تعطيل الكتابة تماماً.</p>
+            <p><strong>الاستخدام:</strong> للعرض فقط أو عند استخدام وضع التتبع دون رسم.</p>
+            <p><strong>الميزات:</strong> المؤشر يتحول إلى "غير مسموح".</p>
+        </div>
+    </div>
+
+    <h3 style="font-family: 'Amiri', serif; font-size: 22px; color: var(--primary); margin: 30px 0 20px;">⚙️ إعدادات القلم</h3>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>الإعداد</th><th>الخيارات</th><th>الوصف</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>📏 سُمك القلم</strong></td><td>رفيع (2px) | وسط (4px) | سميك (8px) | عريض (14px)</td><td>يتحكم في سمك الخط المرسوم</td></tr>
+                <tr><td><strong>🎨 لون القلم</strong></td><td>أسود، أحمر، أخضر، أزرق، بنفسجي، برتقالي، أصفر، فيروزي، وردي، رمادي</td><td>10 ألوان متنوعة للتفريق بين التدريبات</td></tr>
+                <tr><td><strong>🔍 التكبير</strong></td><td>50% إلى 300% (بخطوات 10%)</td><td>يؤثر على حجم الخط في وضع التتبع فقط</td></tr>
+                <tr><td><strong>⚡ سرعة الرسم</strong></td><td>0.5x إلى 5x (بخطوات 0.1)</td><td>التحكم في سرعة إعادة الرسم التلقائي</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- PAGE 4: Letters -->
+<section id="letters" class="section">
+    <h2 class="section-title">🔤 الأحرف العربية وقواعد السطر</h2>
+    <p class="section-subtitle">28 حرفاً مع تصنيفها حسب موقعها على السطر</p>
+
+    <div class="warning-box">
+        <h3>⚠️ السطر الأحمر هو المرجع الأساسي</h3>
+        <p>في السطر العربي (الترام)، يوجد 4 خطوط: <strong>العلوي</strong> (التعلية)، <strong>الثاني</strong>، <strong>الأحمر (الأساس)</strong>، والسفلي. الحروف تستقر على السطر الأحمر أو تنزل منه وفقاً لقواعدها المحددة.</p>
+    </div>
+
+    <h3 style="font-family: 'Amiri', serif; font-size: 22px; color: #00B894; margin: 30px 0 20px;">⬆️ الحروف فوق السطر</h3>
+    <p style="color: var(--text-light); margin-bottom: 20px;">الجسم فوق السطر الأحمر، والنقاط/الذيل تحته</p>
+    <div class="grid grid-4">
+        <div class="letter-card"><div class="letter-char">ب</div><div class="letter-name">الباء</div><div class="letter-desc">خط أفقي + نقطة تحت</div><span class="letter-tag tag-above">↑ فوق</span></div>
+        <div class="letter-card"><div class="letter-char">ت</div><div class="letter-name">التاء</div><div class="letter-desc">مثل الباء بنقطتين فوق</div><span class="letter-tag tag-above">↑ فوق</span></div>
+        <div class="letter-card"><div class="letter-char">ث</div><div class="letter-name">الثاء</div><div class="letter-desc">ثلاث نقاط فوق</div><span class="letter-tag tag-above">↑ فوق</span></div>
+        <div class="letter-card"><div class="letter-char">ط</div><div class="letter-name">الطاء</div><div class="letter-desc">طاسة دائرية + عمود</div><span class="letter-tag tag-above">↑ فوق</span></div>
+        <div class="letter-card"><div class="letter-char">ظ</div><div class="letter-name">الظاء</div><div class="letter-desc">مثل الطاء بنقطة فوق</div><span class="letter-tag tag-above">↑ فوق</span></div>
+        <div class="letter-card"><div class="letter-char">ك</div><div class="letter-name">الكاف</div><div class="letter-desc">ذراع وبطن متعرج</div><span class="letter-tag tag-above">↑ فوق</span></div>
+        <div class="letter-card"><div class="letter-char">ل</div><div class="letter-name">اللام</div><div class="letter-desc">قوس هابط + ذيل أفقي</div><span class="letter-tag tag-above">↑ فوق</span></div>
+    </div>
+
+    <h3 style="font-family: 'Amiri', serif; font-size: 22px; color: #0984E3; margin: 30px 0 20px;">➖ الحروف على السطر</h3>
+    <p style="color: var(--text-light); margin-bottom: 20px;">تستقر تماماً على السطر الأحمر</p>
+    <div class="grid grid-4">
+        <div class="letter-card"><div class="letter-char">س</div><div class="letter-name">السين</div><div class="letter-desc">ثلاثة أسنان متتالية</div><span class="letter-tag tag-on">─ على</span></div>
+        <div class="letter-card"><div class="letter-char">ش</div><div class="letter-name">الشين</div><div class="letter-desc">أسنان + ثلاث نقاط</div><span class="letter-tag tag-on">─ على</span></div>
+        <div class="letter-card"><div class="letter-char">ص</div><div class="letter-name">الصاد</div><div class="letter-desc">بيضة أفقية + عروة</div><span class="letter-tag tag-on">─ على</span></div>
+        <div class="letter-card"><div class="letter-char">ض</div><div class="letter-name">الضاد</div><div class="letter-desc">مثل الصاد بنقطة فوق</div><span class="letter-tag tag-on">─ على</span></div>
+        <div class="letter-card"><div class="letter-char">ف</div><div class="letter-name">الفاء</div><div class="letter-desc">دائرة + ذيل + نقطة</div><span class="letter-tag tag-on">─ على</span></div>
+        <div class="letter-card"><div class="letter-char">ق</div><div class="letter-name">القاف</div><div class="letter-desc">مثل الفاء بنقطتين</div><span class="letter-tag tag-on">─ على</span></div>
+    </div>
+
+    <h3 style="font-family: 'Amiri', serif; font-size: 22px; color: var(--primary); margin: 30px 0 20px;">⬇️ الحروف تحت السطر</h3>
+    <p style="color: var(--text-light); margin-bottom: 20px;">البطن/الذيل ينزل أسفل السطر الأحمر</p>
+    <div class="grid grid-4">
+        <div class="letter-card"><div class="letter-char">ج</div><div class="letter-name">الجيم</div><div class="letter-desc">دائرة ناقصة + نقطة داخل</div><span class="letter-tag tag-below">↓ تحت</span></div>
+        <div class="letter-card"><div class="letter-char">ح</div><div class="letter-name">الحاء</div><div class="letter-desc">مثل الجيم بدون نقطة</div><span class="letter-tag tag-below">↓ تحت</span></div>
+        <div class="letter-card"><div class="letter-char">خ</div><div class="letter-name">الخاء</div><div class="letter-desc">مثل الحاء بنقطة فوق</div><span class="letter-tag tag-below">↓ تحت</span></div>
+        <div class="letter-card"><div class="letter-char">ع</div><div class="letter-name">العين</div><div class="letter-desc">عين تنظر يميناً</div><span class="letter-tag tag-below">↓ تحت</span></div>
+        <div class="letter-card"><div class="letter-char">غ</div><div class="letter-name">الغين</div><div class="letter-desc">مثل العين بنقطة فوق</div><span class="letter-tag tag-below">↓ تحت</span></div>
+        <div class="letter-card"><div class="letter-char">م</div><div class="letter-name">الميم</div><div class="letter-desc">دائرة مغلقة + ذيل</div><span class="letter-tag tag-below">↓ تحت</span></div>
+        <div class="letter-card"><div class="letter-char">ن</div><div class="letter-name">النون</div><div class="letter-desc">قوس هابط + نقطة فوق</div><span class="letter-tag tag-below">↓ تحت</span></div>
+        <div class="letter-card"><div class="letter-char">ي</div><div class="letter-name">الياء</div><div class="letter-desc">قوس + نقطتين تحت</div><span class="letter-tag tag-below">↓ تحت</span></div>
+    </div>
+
+    <h3 style="font-family: 'Amiri', serif; font-size: 22px; color: var(--purple); margin: 30px 0 20px;">🔗 الحروف غير المتصلة</h3>
+    <p style="color: var(--text-light); margin-bottom: 20px;">لها شكلان فقط: منفصل ونهاية</p>
+    <div class="grid grid-4">
+        <div class="letter-card"><div class="letter-char">ا</div><div class="letter-name">الألف</div><div class="letter-desc">خط عمودي مستقيم</div><span class="letter-tag tag-special">🔗 غير متصل</span></div>
+        <div class="letter-card"><div class="letter-char">د</div><div class="letter-name">الدال</div><div class="letter-desc">زاوية حادة + منحنى</div><span class="letter-tag tag-special">🔗 غير متصل</span></div>
+        <div class="letter-card"><div class="letter-char">ذ</div><div class="letter-name">الذال</div><div class="letter-desc">مثل الدال بنقطة فوق</div><span class="letter-tag tag-special">🔗 غير متصل</span></div>
+        <div class="letter-card"><div class="letter-char">ر</div><div class="letter-name">الراء</div><div class="letter-desc">منحنى لطيف للأسفل</div><span class="letter-tag tag-special">🔗 غير متصل</span></div>
+        <div class="letter-card"><div class="letter-char">ز</div><div class="letter-name">الزاي</div><div class="letter-desc">مثل الراء بنقطة فوق</div><span class="letter-tag tag-special">🔗 غير متصل</span></div>
+        <div class="letter-card"><div class="letter-char">و</div><div class="letter-name">الواو</div><div class="letter-desc">رأس دائري + ذيل منحنٍ</div><span class="letter-tag tag-special">🔗 غير متصل</span></div>
+    </div>
+
+    <div class="card" style="border-color: #FDCB6E; margin-top: 30px;">
+        <div class="card-header">
+            <div class="card-icon" style="background: #FFFBE6;">⚡</div>
+            <div class="card-title">الهاء — حالة خاصة</div>
+        </div>
+        <p>الهاء هي الحرف الوحيد الذي أشكاله الأربعة مختلفة جداً:</p>
+        <ul style="margin-top: 10px; padding-right: 20px;">
+            <li><strong>منفصل (ه):</strong> فوق السطر</li>
+            <li><strong>بداية (هـ):</strong> فوق السطر</li>
+            <li><strong>وسط (ـهـ):</strong> على السطر</li>
+            <li><strong>نهاية (ـه):</strong> فوق السطر</li>
+        </ul>
+    </div>
+</section>
+<!-- PAGE 5: Advanced Features -->
+<section id="advanced" class="section">
+    <h2 class="section-title">🚀 الميزات المتقدمة</h2>
+    <p class="section-subtitle">اكتشف إمكانيات التطبيق الكاملة</p>
+
+    <h3 style="font-family: 'Amiri', serif; font-size: 22px; color: var(--primary); margin: 30px 0 20px;">⚡ ميزات تحسين التجربة</h3>
+
+    <div class="grid grid-2">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #FFFBE6;">🌟</div>
+                <div class="card-title">نظام النجوم والتحفيز</div>
+            </div>
+            <p>مكافآت تلقائية على كل رسمة ناجحة (أكثر من 10 نقاط). يتم حفظ النجوم في المتصفح (LocalStorage) ويظهر عداد النجوم في شريط العنوان.</p>
+            <p style="margin-top: 10px; color: var(--text-light); font-size: 13px;">🔧 التقنية: localStorage API</p>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #E3FDFD;">🔊</div>
+                <div class="card-title">التوجيه الصوتي</div>
+            </div>
+            <p>إرشادات صوتية بالعربية (ar-SA) لكل حرف. يُستخدم Web Speech API لنطق اسم الحرف وخطوات الكتابة تلقائياً.</p>
+            <p style="margin-top: 10px; color: var(--text-light); font-size: 13px;">🔧 التقنية: SpeechSynthesis API</p>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #FFF0F5;">📳</div>
+                <div class="card-title">الاهتزاز (Haptic Feedback)</div>
+            </div>
+            <p>ردود فعل حركية عند الإنجازات (جمع نجوم، إكمال رسمة، تغيير الإعدادات). يدعم الأجهزة المحمولة الحديثة.</p>
+            <p style="margin-top: 10px; color: var(--text-light); font-size: 13px;">🔧 التقنية: Navigator.vibrate()</p>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #F0E6FF;">🎊</div>
+                <div class="card-title">تأثيرات بصرية (Confetti)</div>
+            </div>
+            <p>تأثيرات احتفالية عند إكمال الرسمة. أشكال ملونة متحركة (دوائر ومربعات) تتطاير من موقع المؤشر.</p>
+            <p style="margin-top: 10px; color: var(--text-light); font-size: 13px;">🔧 التقنية: Web Animations API</p>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #F0FFF4;">🔄</div>
+                <div class="card-title">إعادة الرسم التلقائي</div>
+            </div>
+            <p>شاهد رسمتك تُعاد تلقائياً خطوة بخطوة. سرعة قابلة للتعديل (0.5x إلى 5x). مثالي لتحليل الأخطاء وتحسينها.</p>
+            <p style="margin-top: 10px; color: var(--text-light); font-size: 13px;">🔧 التقنية: requestAnimationFrame</p>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #FFF5E6;">📸</div>
+                <div class="card-title">لقطة الشاشة + التقييم</div>
+            </div>
+            <p>حفظ الرسمة بصيغة PNG مع اقتصاص ذكي للمحتوى فقط. يتبعه تقييم ذاتي بالنجوم (1-5) مع رسائل تحفيزية.</p>
+            <p style="margin-top: 10px; color: var(--text-light); font-size: 13px;">🔧 التقنية: Canvas.toDataURL()</p>
+        </div>
+    </div>
+
+    <h3 style="font-family: 'Amiri', serif; font-size: 22px; color: #E17055; margin: 30px 0 20px;">👨‍🏫 وضع الأستاذ — مولد الكلمات المخصصة</h3>
+
+    <div class="card" style="border-color: #E17055;">
+        <div class="card-header">
+            <div class="card-icon" style="background: #FFF5E6;">👨‍🏫</div>
+            <div class="card-title">كيفية الاستخدام</div>
+        </div>
+        <ol style="padding-right: 20px; line-height: 2.2;">
+            <li>اضغط على زر <strong>"👨‍🏫 وضع الأستاذ"</strong> في الشريط الأيمن</li>
+            <li>اكتب الكلمة المطلوبة في حقل الإدخال (مثال: مدرسة، كتاب، جبل، نهر)</li>
+            <li>اضغط <strong>"إنشاء الورقة"</strong> — سيتم إنشاء دليل تتبع مخصص للكلمة</li>
+            <li>يمكن للمتعلمين تتبع الكلمة مباشرة على اللوحة</li>
+            <li>يتم تفعيل وضع التتبع تلقائياً مع ظل الكلمة</li>
+        </ol>
+        <div class="tip-box" style="margin-top: 20px;">
+            <h3>💡 نصيحة</h3>
+            <ul>
+                <li>استخدم كلمات بسيطة (3-5 حروف) للمبتدئين</li>
+                <li>اختار كلمات تحتوي على حروف متنوعة (فوق/على/تحت السطر)</li>
+                <li>كرر الكلمة عدة مرات لترسيخ الربط بين الحروف</li>
+            </ul>
+        </div>
+    </div>
+
+    <h3 style="font-family: 'Amiri', serif; font-size: 22px; color: var(--purple); margin: 30px 0 20px;">🎨 تخصيص الصفحة</h3>
+
+    <div class="grid grid-2">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #E3FDFD;">📏</div>
+                <div class="card-title">أنماط سطور الصفحة</div>
+            </div>
+            <ul style="list-style: none; padding: 0;">
+                <li style="padding: 8px 0; border-bottom: 1px solid var(--border);"><strong>عربية:</strong> 4 خطوط (علوي + ثانٍ + أحمر أساس + سفلي)</li>
+                <li style="padding: 8px 0; border-bottom: 1px solid var(--border);"><strong>منقطة:</strong> نقاط متباعدة لتوجيه الكتابة</li>
+                <li style="padding: 8px 0; border-bottom: 1px solid var(--border);"><strong>مسطرة:</strong> خطوط أفقية متوازية</li>
+                <li style="padding: 8px 0;"><strong>فارغة:</strong> صفحة بيضاء خالية للإبداع</li>
+            </ul>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #F0E6FF;">🎨</div>
+                <div class="card-title">الثيمات المتاحة</div>
+            </div>
+            <ul style="list-style: none; padding: 0;">
+                <li style="padding: 8px 0; border-bottom: 1px solid var(--border);"><strong>أبيض:</strong> خلفية نعناعية مع نقاط ملونة (افتراضي)</li>
+                <li style="padding: 8px 0; border-bottom: 1px solid var(--border);"><strong>سبورة:</strong> خلفية داكنة مع تأثيرات طباشير (تعليمي)</li>
+                <li style="padding: 8px 0;"><strong>فضاء:</strong> خلفية فضائية مع نجوم (ممتع)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-icon" style="background: #FFFBE6;">🖼️</div>
+            <div class="card-title">ألوان الورق المتاحة</div>
+        </div>
+        <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px;">
+            <span style="padding: 10px 20px; background: #FFFFFF; border: 2px solid var(--border); border-radius: 10px;">⚪ أبيض</span>
+            <span style="padding: 10px 20px; background: #FFF5E6; border: 2px solid var(--border); border-radius: 10px;">🟡 كريمي</span>
+            <span style="padding: 10px 20px; background: #E3FDFD; border: 2px solid var(--border); border-radius: 10px;">🟢 نعناعي</span>
+            <span style="padding: 10px 20px; background: #FFF0F5; border: 2px solid var(--border); border-radius: 10px;">🩷 وردي</span>
+            <span style="padding: 10px 20px; background: #F0FFF4; border: 2px solid var(--border); border-radius: 10px;">🌿 أخضر فاتح</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-icon" style="background: #F0FFF4;">🖐️</div>
+            <div class="card-title">وضع الأعسر (Left-Handed Mode)</div>
+        </div>
+        <p>عند تفعيل وضع الأعسر، يتم عكس ترتيب الأشرطة الجانبية (الشريط الأيسر يصبح على اليمين والعكس). يدعم المتعلمين الأعسر لراحة أكبر أثناء الكتابة.</p>
+        <p style="margin-top: 10px; color: var(--text-light); font-size: 13px;">💡 يمكن تفعيله من الشريط الأيمن → "🖐️ وضع اليمين/الأعسر"</p>
+    </div>
+</section>
+
+<!-- PAGE 6: Tips & Best Practices -->
+<section id="tips" class="section">
+    <h2 class="section-title">⌨️ الاختصارات والنصائح الذهبية</h2>
+    <p class="section-subtitle">أدوات احترافية لاستخدام أفضل</p>
+
+    <h3 style="font-family: 'Amiri', serif; font-size: 22px; color: var(--primary); margin: 30px 0 20px;">🎯 اختصارات لوحة المفاتيح</h3>
+
+    <div class="shortcut-row">
+        <span class="shortcut-key">Ctrl + Z</span>
+        <span class="shortcut-action">تراجع</span>
+        <span class="shortcut-desc">التراجع عن آخر خطوة رسم (Undo)</span>
+    </div>
+    <div class="shortcut-row">
+        <span class="shortcut-key">Ctrl + Y</span>
+        <span class="shortcut-action">إعادة</span>
+        <span class="shortcut-desc">إعادة الخطوة الملغاة (Redo)</span>
+    </div>
+    <div class="shortcut-row">
+        <span class="shortcut-key">Ctrl + Shift + Z</span>
+        <span class="shortcut-action">إعادة</span>
+        <span class="shortcut-desc">بديل لـ Ctrl+Y</span>
+    </div>
+    <div class="shortcut-row">
+        <span class="shortcut-key">Ctrl + S</span>
+        <span class="shortcut-action">حفظ</span>
+        <span class="shortcut-desc">حفظ لقطة الشاشة كصورة PNG</span>
+    </div>
+    <div class="shortcut-row">
+        <span class="shortcut-key">Delete</span>
+        <span class="shortcut-action">مسح</span>
+        <span class="shortcut-desc">مسح الصفحة بالكامل</span>
+    </div>
+    <div class="shortcut-row">
+        <span class="shortcut-key">→ سهم يمين</span>
+        <span class="shortcut-action">التالي</span>
+        <span class="shortcut-desc">الانتقال للحرف التالي في القائمة</span>
+    </div>
+    <div class="shortcut-row">
+        <span class="shortcut-key">← سهم يسار</span>
+        <span class="shortcut-action">السابق</span>
+        <span class="shortcut-desc">الانتقال للحرف السابق في القائمة</span>
+    </div>
+
+    <h3 style="font-family: 'Amiri', serif; font-size: 22px; color: #00B894; margin: 40px 0 20px;">💡 نصائح ذهبية للاستخدام الأمثل</h3>
+
+    <div class="grid grid-2">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #E3FDFD;">🎯</div>
+                <div class="card-title">ابدأ بالتتبع</div>
+            </div>
+            <p>استخدم وضع التتبع أولاً لفهم شكل الحرف وموقعه على السطر قبل محاولة الكتابة الحرة.</p>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #F0E6FF;">🎓</div>
+                <div class="card-title">تعلم الخطوات</div>
+            </div>
+            <p>اقرأ خطوات الكتابة في وضع التعلم قبل البدء بالرسم. فهم التسلسل يساعد على الرسم الصحيح.</p>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #FFF0F5;">📏</div>
+                <div class="card-title">احترم السطر الأحمر</div>
+            </div>
+            <p>السطر الأحمر هو مرجعك الأساسي. لا تتجاوزه إلا للحروف النازلة (ج، ح، خ، ع، غ، م، ن، ي).</p>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #FFF5E6;">🖌️</div>
+                <div class="card-title">جرب الأقلام</div>
+            </div>
+            <p>استخدم الرصاص للتخطيط، ثم القلم للتنفيذ النهائي. الريشة السحرية للخط العربي التقليدي.</p>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #E3FDFD;">🎨</div>
+                <div class="card-title">غيّر الألوان</div>
+            </div>
+            <p>استخدم ألواناً مختلفة للتفريق بين التدريبات المتعاقبة. يساعد على التحليل والمقارنة.</p>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #FFFBE6;">📸</div>
+                <div class="card-title">احفظ تقدمك</div>
+            </div>
+            <p>خذ لقطة شاشة بعد كل تدريب ناجح وقيّم نفسك بالنجوم. يساعد على تتبع التحسن.</p>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #F0FFF4;">🌟</div>
+                <div class="card-title">اجمع النجوم</div>
+            </div>
+            <p>كل رسمة ناجحة = نجمة. حافظ على التحفيز! النجوم تُحفظ في المتصفح وتتراكم مع الوقت.</p>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #FFF5E6;">👨‍🏫</div>
+                <div class="card-title">استخدم وضع الأستاذ</div>
+            </div>
+            <p>أنشئ كلمات مخصصة للتدريب على الربط بين الحروف. مثالي للمرحلة المتقدمة.</p>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #F0E6FF;">🖐️</div>
+                <div class="card-title">فعّل وضع الأعسر</div>
+            </div>
+            <p>إذا كنت أعسراً، فعّل الوضع المناسب لراحة أكبر. يعكس ترتيب الأشرطة تلقائياً.</p>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: #E3FDFD;">🔄</div>
+                <div class="card-title">شاهد الرسم</div>
+            </div>
+            <p>استخدم إعادة الرسم لتحليل أخطائك وتحسينها. خفف السرعة لرؤية التفاصيل.</p>
+        </div>
+    </div>
+
+    <h3 style="font-family: 'Amiri', serif; font-size: 22px; color: #E17055; margin: 40px 0 20px;">🔧 حل المشكلات الشائعة</h3>
+
+    <div class="grid grid-2">
+        <div class="card" style="border-color: #E17055;">
+            <div class="card-header">
+                <div class="card-icon" style="background: #FFF0F5;">❓</div>
+                <div class="card-title">الكتابة لا تعمل</div>
+            </div>
+            <p>تأكد من أن نوع القلم ليس "بدون" — اختر قلماً من الشريط الأيسر (قلم/رصاص/ريشة).</p>
+        </div>
+        <div class="card" style="border-color: #E17055;">
+            <div class="card-header">
+                <div class="card-icon" style="background: #FFF0F5;">❓</div>
+                <div class="card-title">الحرف غير واضح في التتبع</div>
+            </div>
+            <p>اضبط التكبير على 100% أو أعلى لرؤية أفضل. يمكن أيضاً تغيير لون الورق للتباين.</p>
+        </div>
+        <div class="card" style="border-color: #E17055;">
+            <div class="card-header">
+                <div class="card-icon" style="background: #FFF0F5;">❓</div>
+                <div class="card-title">الصفحة فارغة بعد التبديل</div>
+            </div>
+            <p>الصفحات منفصلة — كل صفحة تحفظ رسمها الخاص. استخدم مؤشر الصفحات للتنقل بينها.</p>
+        </div>
+        <div class="card" style="border-color: #E17055;">
+            <div class="card-header">
+                <div class="card-icon" style="background: #FFF0F5;">❓</div>
+                <div class="card-title">التطبيق بطيء</div>
+            </div>
+            <p>أغلق التطبيقات الأخرى أو استخدم متصفحاً حديثاً (Chrome/Firefox/Edge). امسح ذاكرة التخزين المؤقت.</p>
+        </div>
+        <div class="card" style="border-color: #E17055;">
+            <div class="card-header">
+                <div class="card-icon" style="background: #FFF0F5;">❓</div>
+                <div class="card-title">الصوت لا يعمل</div>
+            </div>
+            <p>تأكد من تفعيل الصوت في المتصفح ورفع مستوى الصوت. بعض المتصفحات تتطلب تفاعلاً أولاً.</p>
+        </div>
+        <div class="card" style="border-color: #E17055;">
+            <div class="card-header">
+                <div class="card-icon" style="background: #FFF0F5;">❓</div>
+                <div class="card-title">الحفظ لا يعمل</div>
+            </div>
+            <p>تأكد من السماح بالتنزيلات في إعدادات المتصفح. جرب متصفحاً مختلفاً إذا استمرت المشكلة.</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <h3>🎓 دليل تدريبي شامل لتطبيق خطاط الصغار</h3>
+        <p><strong>تصميم:</strong> رضا أيت أمغار</p>
+        <p><strong>المؤسسة:</strong> المركز الجهوي لمهن التربية والتكوين — مراكش آسفي (ملحقة المشور)</p>
+        <p><strong>السنة التكوينية:</strong> 2025-2026 | <strong>Fawj 4</strong> | <strong>مدرسة ابن زيدون 2 الابتدائية</strong></p>
+        <p style="margin-top: 20px; font-size: 16px; color: var(--secondary);">✨ هيا نبدأ رحلتك الإبداعية في عالم الخط العربي! ✨</p>
+    </div>
+</section>
+
+<button class="print-btn" onclick="window.print()">🖨️ طباعة الدليل</button>
+
+<script>
+function showSection(id, link) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    if (link) link.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+});
+</script>
+
+</body>
+</html>
